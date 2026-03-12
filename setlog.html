@@ -113,6 +113,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .merge-header h2{font-family:'Playfair Display',serif;font-size:20px;color:var(--accent);}
 .merge-body{padding:0 24px 40px;flex:1;}
 .ratio-row{display:flex;gap:8px;margin-bottom:20px;}
+.person-row{display:flex;gap:8px;margin-bottom:0;}
+.person-btn{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 4px;cursor:pointer;color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;transition:all .2s;}
+.person-btn:hover{border-color:var(--accent);}
+.person-btn.active{border-color:var(--accent);background:rgba(212,169,106,.09);color:var(--accent);}
 .ratio-btn{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 4px;cursor:pointer;color:var(--text2);font-size:12px;font-family:'DM Sans',sans-serif;text-align:center;transition:all .2s;}
 .ratio-btn:hover{border-color:var(--accent);}
 .ratio-btn.active{border-color:var(--accent);background:rgba(212,169,106,.09);color:var(--accent);}
@@ -148,7 +152,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .div-row label{font-size:13px;flex:1;}
 #divColor{width:40px;height:28px;border:1px solid var(--border);border-radius:6px;background:var(--s2);cursor:pointer;padding:2px;}
 .canvas-wrap{display:flex;justify-content:center;margin-bottom:20px;}
-#mergeCanvas{max-width:100%;max-height:42vh;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+#mergeCanvas{max-width:100%;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
 
 /* modal */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;align-items:center;justify-content:center;}
@@ -258,6 +262,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
     <h2>영상 합치기</h2>
   </div>
   <div class="merge-body">
+
+    <div style="margin-bottom:18px;">
+      <div class="sec-label">인원 수</div>
+      <div class="person-row">
+        <button class="person-btn" data-n="1" onclick="pickPersons(1)">1명</button>
+        <button class="person-btn" data-n="2" onclick="pickPersons(2)">2명</button>
+        <button class="person-btn active" data-n="3" onclick="pickPersons(3)">3명</button>
+        <button class="person-btn" data-n="4" onclick="pickPersons(4)">4명</button>
+      </div>
+    </div>
+
     <div style="margin-bottom:18px;">
       <div class="sec-label">비율</div>
       <div class="ratio-row">
@@ -266,6 +281,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
         <button class="ratio-btn" data-r="4:5" onclick="pickRatio('4:5')">4:5</button>
       </div>
     </div>
+
     <div style="margin-bottom:18px;">
       <div class="sec-label">각자 클립 올리기</div>
       <div class="lanes" id="lanesWrap"></div>
@@ -387,14 +403,29 @@ const R = {
   cdTimer: null, recTimer: null, duration: 5,
   clips: [], // {id(db), blob, mime, url, thumbVid}
 };
+const LANE_COLORS = ['#d4a96a','#6ab4d4','#5ce08a','#c96ad4'];
+const LANE_NAMES  = ['나','친구1','친구2','친구3'];
 const M = {
   ratio: '9:16', animFrame: null, pendingLane: null,
+  personCount: 3,
   lanes: [
     { name: '나',    color: '#d4a96a', clips: [] },
     { name: '친구1', color: '#6ab4d4', clips: [] },
     { name: '친구2', color: '#5ce08a', clips: [] },
   ],
 };
+
+function pickPersons(n) {
+  M.personCount = n;
+  document.querySelectorAll('.person-btn').forEach(b => b.classList.toggle('active', +b.dataset.n === n));
+  // Resize lanes array
+  while (M.lanes.length < n) {
+    const i = M.lanes.length;
+    M.lanes.push({ name: LANE_NAMES[i] || \`사람\${i+1}\`, color: LANE_COLORS[i] || '#aaa', clips: [] });
+  }
+  M.lanes = M.lanes.slice(0, n);
+  buildLanes(); renderCanvas();
+}
 
 // ══════════════════════════════
 //  INIT
@@ -477,8 +508,8 @@ async function goRecord() {
 
 function sizeLiveBox() {
   const box = document.getElementById('liveBox');
-  const maxW = Math.min(window.innerWidth - 40, 260), maxH = window.innerHeight * 0.44;
-  const asp = 9 / 16; let w = maxW, h = w / asp;
+  const maxW = Math.min(window.innerWidth - 40, 360), maxH = window.innerHeight * 0.44;
+  const asp = 16 / 9; let w = maxW, h = w / asp;
   if (h > maxH) { h = maxH; w = h * asp; }
   box.style.width = Math.round(w) + 'px'; box.style.height = Math.round(h) + 'px';
 }
@@ -487,7 +518,7 @@ async function startCam() {
   try {
     if (R.stream) R.stream.getTracks().forEach(t => t.stop());
     R.stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: R.facing, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: true
+      video: { facingMode: R.facing, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: true
     });
     document.getElementById('liveVideo').srcObject = R.stream;
     document.getElementById('bgCam').srcObject = R.stream;
@@ -779,12 +810,15 @@ function buildTimeline() {
 }
 
 function getCanvasSize() {
-  const [w, h] = M.ratio.split(':').map(Number), BASE = 480;
-  return w > h ? { W: BASE, H: Math.round(BASE * h / w) } : { W: Math.round(BASE * w / h), H: BASE };
+  return { W: 1080, H: 360 }; // 16:9 가로 3분할에 맞는 비율
 }
 function getCellRects(W, H, gap = 2) {
-  const hw = Math.floor((W - gap * 2) / 3);
-  return [{ x:0, y:0, w:hw, h:H }, { x:hw+gap, y:0, w:hw, h:H }, { x:(hw+gap)*2, y:0, w:W-(hw+gap)*2, h:H }];
+  const cw = Math.floor((W - gap * 2) / 3);
+  return [
+    { x: 0,          y: 0, w: cw, h: H },
+    { x: cw+gap,     y: 0, w: cw, h: H },
+    { x: (cw+gap)*2, y: 0, w: W-(cw+gap)*2, h: H }
+  ];
 }
 
 function renderCanvas() {
