@@ -421,7 +421,7 @@ function pickPersons(n) {
   // Resize lanes array
   while (M.lanes.length < n) {
     const i = M.lanes.length;
-    M.lanes.push({ name: LANE_NAMES[i] || \`사람\${i+1}\`, color: LANE_COLORS[i] || '#aaa', clips: [] });
+    M.lanes.push({ name: LANE_NAMES[i] || ('사람'+(i+1)), color: LANE_COLORS[i] || '#aaa', clips: [] });
   }
   M.lanes = M.lanes.slice(0, n);
   buildLanes(); renderCanvas();
