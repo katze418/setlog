@@ -181,7 +181,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
     <div class="home-header">
       <div class="logo">setlog</div>
       <div class="logo-sub">split vlog maker</div>
-      <div class="version">v0.9</div>
+      <div class="version">v0.10</div>
     </div>
     <div class="today-banner" id="todayBanner">
       <div class="today-banner-top">
@@ -671,7 +671,15 @@ function stopRec(){
 }
 
 function getBestMime(){
-  const t=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+  // mp4 먼저 시도
+  const t=[
+    'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+    'video/mp4;codecs=h264,aac',
+    'video/mp4',
+    'video/webm;codecs=vp9,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm'
+  ];
   return t.find(x=>MediaRecorder.isTypeSupported(x))||'video/webm';
 }
 
@@ -1022,10 +1030,12 @@ async function doExport(){
 
   mr.stop(); await new Promise(res=>mr.onstop=res);
   const blob=new Blob(chunks,{type:mime});
-  lastWebmBlob=blob;
+  const finalExt=mime.includes('mp4')?'mp4':'webm';
+  const a2=document.createElement('a');
+  a2.href=URL.createObjectURL(blob);
+  a2.download='setlog_'+todayStr()+'.'+finalExt; a2.click();
   hideModal(); document.getElementById('exportBtn').disabled=false;
-  showToast('합치기 완료! mp4로 변환 중...');
-  await convertToMp4();
+  showToast('🎬 완성됐어요! ('+finalExt+')');
   renderCanvas();
 }
 
@@ -1070,14 +1080,19 @@ async function convertToMp4(){
     const chunks=[]; mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
     mr.start(100);
 
+    // 먼저 muted로 재생 시작 (autoplay 정책 우회)
+    vid.muted=true;
     vid.currentTime=0;
+    await new Promise(res=>vid.addEventListener('canplay',res,{once:true}));
+    // 충분히 로드된 후 unmute하고 재녹화
+    vid.muted=false;
+
     await new Promise(resolve=>{
       vid.addEventListener('ended', resolve, {once:true});
-      // fallback timeout
-      setTimeout(resolve, (dur+2)*1000);
+      setTimeout(resolve, (dur+5)*1000); // fallback
       const startT=performance.now();
       function loop(){
-        if(vid.ended||vid.paused) return;
+        if(vid.ended) return;
         if(vid.readyState>=2) ctx.drawImage(vid,0,0,W,H);
         const elapsed=(performance.now()-startT)/1000;
         const p=Math.min(98,Math.round(elapsed/dur*100));
@@ -1085,7 +1100,7 @@ async function convertToMp4(){
         document.getElementById('mTxt').textContent=p+'%';
         requestAnimationFrame(loop);
       }
-      vid.play().then(()=>requestAnimationFrame(loop)).catch(resolve);
+      vid.play().then(()=>requestAnimationFrame(loop));
     });
 
     vid.pause(); mr.stop();
