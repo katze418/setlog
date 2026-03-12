@@ -181,7 +181,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
     <div class="home-header">
       <div class="logo">setlog</div>
       <div class="logo-sub">split vlog maker</div>
-      <div class="version">v0.8</div>
+      <div class="version">v0.9</div>
     </div>
     <div class="today-banner" id="todayBanner">
       <div class="today-banner-top">
@@ -1070,20 +1070,22 @@ async function convertToMp4(){
     const chunks=[]; mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
     mr.start(100);
 
-    vid.currentTime=0; vid.play();
-    const startT=performance.now();
-
+    vid.currentTime=0;
     await new Promise(resolve=>{
+      vid.addEventListener('ended', resolve, {once:true});
+      // fallback timeout
+      setTimeout(resolve, (dur+2)*1000);
+      const startT=performance.now();
       function loop(){
-        const elapsed=(performance.now()-startT)/1000;
+        if(vid.ended||vid.paused) return;
         if(vid.readyState>=2) ctx.drawImage(vid,0,0,W,H);
+        const elapsed=(performance.now()-startT)/1000;
         const p=Math.min(98,Math.round(elapsed/dur*100));
         document.getElementById('mFill').style.width=p+'%';
         document.getElementById('mTxt').textContent=p+'%';
-        if(elapsed<dur) requestAnimationFrame(loop);
-        else resolve();
+        requestAnimationFrame(loop);
       }
-      requestAnimationFrame(loop);
+      vid.play().then(()=>requestAnimationFrame(loop)).catch(resolve);
     });
 
     vid.pause(); mr.stop();
