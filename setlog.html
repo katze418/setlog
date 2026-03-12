@@ -181,7 +181,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
     <div class="home-header">
       <div class="logo">setlog</div>
       <div class="logo-sub">split vlog maker</div>
-      <div class="version">v0.6</div>
+      <div class="version">v0.7</div>
     </div>
     <div class="today-banner" id="todayBanner">
       <div class="today-banner-top">
@@ -314,7 +314,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
     <div class="canvas-wrap"><canvas id="mergeCanvas"></canvas></div>
     <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
-      <button class="btn-primary" id="exportBtn" onclick="doExport()">영상 저장하기</button>
+      <button class="btn-primary" id="exportBtn" onclick="doExport()">영상 저장하기 (webm)</button>
+      <button class="btn-ghost" id="convertBtn" style="display:none" onclick="convertToMp4()">mp4로 변환하기 (시간 걸림)</button>
     </div>
   </div>
 </div>
@@ -623,7 +624,7 @@ async function finishToday(){
   }catch(e){}
 
   const mime=getBestMime();
-  const mr=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:8_000_000});
+  const mr=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:20_000_000});
   const chunks=[]; mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
   mr.start(100);
 
@@ -929,7 +930,7 @@ async function doExport(){
   }catch(e){}
 
   const mime=getBestMime();
-  const mr=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:8_000_000});
+  const mr=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:20_000_000});
   const chunks=[]; mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
   mr.start(100);
 
@@ -1026,9 +1027,53 @@ async function doExport(){
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download='setlog_'+todayStr()+'.'+ext; a.click();
+  if(mime.includes('webm')){lastWebmBlob=blob;document.getElementById('convertBtn').style.display='block';}
   hideModal(); document.getElementById('exportBtn').disabled=false;
-  showToast('🎬 완성됐어요!');
+  showToast('🎬 완성됐어요! webm이면 아래서 mp4 변환 가능해요');
   renderCanvas();
+}
+
+
+// ══════════════════════════════
+//  MP4 변환 (FFmpeg.wasm)
+// ══════════════════════════════
+let lastWebmBlob = null;
+
+async function convertToMp4(){
+  if(!lastWebmBlob){showToast('먼저 영상 저장하기를 눌러주세요!');return;}
+  const btn=document.getElementById('convertBtn');
+  btn.disabled=true;
+  showModal('mp4 변환 중','시간이 걸릴 수 있어요. 화면을 닫지 마세요...');
+  document.getElementById('mFill').style.width='10%';
+  document.getElementById('mTxt').textContent='FFmpeg 로딩 중...';
+
+  try{
+    // Load FFmpeg
+    const {createFFmpeg,fetchFile}=FFmpeg;
+    const ffmpeg=createFFmpeg({log:false});
+    await ffmpeg.load();
+    document.getElementById('mFill').style.width='20%';
+    document.getElementById('mTxt').textContent='변환 준비 중...';
+
+    ffmpeg.setProgress(({ratio})=>{
+      const p=Math.round(20+ratio*78);
+      document.getElementById('mFill').style.width=p+'%';
+      document.getElementById('mTxt').textContent=p+'%';
+    });
+
+    ffmpeg.FS('writeFile','input.webm',await fetchFile(lastWebmBlob));
+    await ffmpeg.run('-i','input.webm','-c:v','libx264','-preset','fast','-crf','23','-c:a','aac','-movflags','+faststart','output.mp4');
+    const data=ffmpeg.FS('readFile','output.mp4');
+    const mp4Blob=new Blob([data.buffer],{type:'video/mp4'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(mp4Blob);
+    a.download='setlog_'+todayStr()+'.mp4'; a.click();
+    hideModal(); showToast('✅ mp4 변환 완료!');
+  }catch(e){
+    hideModal(); showToast('변환 실패 😢 '+e.message);
+    console.error(e);
+  }
+  btn.disabled=false;
 }
 
 // ══════════════════════════════
@@ -1050,5 +1095,6 @@ function showToast(msg){
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.11.6/ffmpeg.min.js"></script>
 </body>
 </html>
