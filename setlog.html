@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>setlog</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0c0c0c;--surface:#161616;--s2:#1e1e1e;--border:#2c2c2c;
@@ -14,21 +14,19 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;}
-
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .3s,transform .3s;overflow-y:auto;}
 .screen.hidden{opacity:0;pointer-events:none;transform:translateY(16px);}
 
 /* shared */
 .logo{font-family:'Playfair Display',serif;font-size:26px;letter-spacing:3px;color:var(--accent);}
 .logo-sub{font-size:11px;letter-spacing:2px;color:var(--text2);margin-top:4px;text-transform:uppercase;}
+.version{font-size:10px;color:#333;letter-spacing:1px;margin-top:2px;}
 .sec-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:12px;}
 .btn-primary{width:100%;background:var(--accent);color:#0c0c0c;border:none;border-radius:var(--r);padding:17px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:.5px;cursor:pointer;transition:all .2s;}
 .btn-primary:hover{background:var(--accent2);transform:translateY(-1px);}
 .btn-primary:disabled{background:var(--border);color:var(--text2);cursor:not-allowed;transform:none;}
 .btn-ghost{width:100%;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
-.btn-danger{width:100%;background:transparent;color:var(--danger);border:1px solid rgba(224,92,92,.3);border-radius:var(--r);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
-.btn-danger:hover{background:rgba(224,92,92,.08);}
 .back-btn{background:var(--surface);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;color:var(--text);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .toggle{width:42px;height:24px;background:var(--border);border-radius:12px;cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;}
 .toggle.on{background:var(--accent);}
@@ -41,17 +39,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 /* ══ HOME ══ */
 #homeScreen{background:var(--bg);justify-content:center;align-items:center;}
 .home-inner{width:100%;max-width:360px;padding:40px 28px;}
-.home-header{margin-bottom:40px;}
-.today-banner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:none;}
-.today-banner-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
-.today-banner-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);}
-.today-clip-count{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);}
-.today-clip-count span{font-size:12px;color:var(--text2);font-family:'DM Sans',sans-serif;}
-.today-strip{display:flex;gap:5px;overflow-x:auto;margin-top:8px;}
-.today-strip::-webkit-scrollbar{height:2px;}
-.today-thumb{width:32px;height:48px;border-radius:4px;overflow:hidden;flex-shrink:0;background:var(--s2);}
-.today-thumb video{width:100%;height:100%;object-fit:cover;}
-
+.home-header{margin-bottom:36px;}
+.today-banner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:18px;display:none;}
+.today-banner-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.today-banner-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);}
+.today-clip-count{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);}
+.today-clip-count span{font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif;}
+.today-hours{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.hour-tag{background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:10px;color:var(--text2);}
 .mode-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
 .mode-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:14px;}
 .mode-card:hover{border-color:var(--accent);}
@@ -68,7 +63,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .rec-title-main{font-family:'Playfair Display',serif;font-size:15px;color:var(--accent);}
 .rec-title-sub{font-size:10px;color:var(--text2);letter-spacing:1px;margin-top:2px;}
 .flip-btn{background:rgba(255,255,255,.08);border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;color:var(--text);font-size:18px;display:flex;align-items:center;justify-content:center;}
-
 .live-wrap{position:relative;z-index:10;flex:1;display:flex;align-items:center;justify-content:center;padding:0 20px;}
 .live-box{position:relative;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.6);background:#111;}
 #liveVideo{display:block;width:100%;height:100%;object-fit:cover;}
@@ -81,8 +75,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .rec-badge{position:absolute;top:10px;left:10px;display:none;align-items:center;gap:5px;background:rgba(0,0,0,.55);border-radius:20px;padding:4px 10px 4px 7px;font-size:11px;}
 .rdb{width:7px;height:7px;background:var(--danger);border-radius:50%;animation:blink 1s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.clip-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--accent);}
-
+.hour-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.6);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--accent);}
 .rec-bottom{position:relative;z-index:10;padding:10px 20px 36px;display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;}
 .dur-row{display:flex;align-items:center;gap:12px;width:100%;max-width:260px;}
 .dur-val{font-family:'Playfair Display',serif;font-size:24px;color:var(--accent);min-width:44px;text-align:center;line-height:1;}
@@ -92,7 +85,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .rec-btn-inner{width:48px;height:48px;border-radius:50%;background:var(--danger);transition:all .3s;}
 .rec-btn.recording .rec-btn-inner{border-radius:8px;width:26px;height:26px;}
 .rec-hint{font-size:11px;color:var(--text2);letter-spacing:.5px;min-height:16px;text-align:center;}
-
 .clips-row{width:100%;max-width:300px;display:none;flex-direction:column;gap:6px;}
 .clips-row-top{display:flex;align-items:center;justify-content:space-between;}
 .clips-row-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);}
@@ -103,7 +95,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .clip-thumb video{width:100%;height:100%;object-fit:cover;}
 .clip-thumb .cdel{position:absolute;inset:0;background:rgba(200,60,60,.75);display:none;align-items:center;justify-content:center;font-size:13px;cursor:pointer;}
 .clip-thumb:hover .cdel{display:flex;}
-
+.clip-hour-tag{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:8px;color:#fff;background:rgba(0,0,0,.6);padding:1px 0;}
 .btn-finish{background:var(--accent);color:#0c0c0c;border:none;border-radius:var(--r);padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:.5px;cursor:pointer;transition:all .2s;width:100%;max-width:300px;display:none;}
 .btn-finish:hover{background:var(--accent2);}
 
@@ -112,17 +104,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .merge-header{padding:52px 24px 16px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
 .merge-header h2{font-family:'Playfair Display',serif;font-size:20px;color:var(--accent);}
 .merge-body{padding:0 24px 40px;flex:1;}
-.ratio-row{display:flex;gap:8px;margin-bottom:20px;}
+
 .person-row{display:flex;gap:8px;margin-bottom:0;}
 .person-btn{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 4px;cursor:pointer;color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;text-align:center;transition:all .2s;}
 .person-btn:hover{border-color:var(--accent);}
 .person-btn.active{border-color:var(--accent);background:rgba(212,169,106,.09);color:var(--accent);}
+
+.ratio-row{display:flex;gap:8px;}
 .ratio-btn{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 4px;cursor:pointer;color:var(--text2);font-size:12px;font-family:'DM Sans',sans-serif;text-align:center;transition:all .2s;}
 .ratio-btn:hover{border-color:var(--accent);}
 .ratio-btn.active{border-color:var(--accent);background:rgba(212,169,106,.09);color:var(--accent);}
-.lanes{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+
+/* lanes */
+.lanes{display:flex;flex-direction:column;gap:10px;}
 .lane{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.lane-hdr{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.lane-hdr{padding:10px 14px;display:flex;align-items:center;gap:8px;}
 .lane-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 .lane-name{background:transparent;border:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;min-width:0;}
 .lane-name::placeholder{color:var(--text2);}
@@ -134,15 +130,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .lane-clip video{width:100%;height:100%;object-fit:cover;pointer-events:none;}
 .lane-clip .ldel{position:absolute;inset:0;background:rgba(200,60,60,.75);display:none;align-items:center;justify-content:center;font-size:13px;cursor:pointer;}
 .lane-clip:hover .ldel{display:flex;}
+.lane-clip-hour{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:8px;color:#fff;background:rgba(0,0,0,.65);padding:1px 0;}
 .lane-empty{font-size:11px;color:var(--text2);}
 
-.tl-wrap{margin-bottom:20px;}
-.tl-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
-.tl-name{font-size:10px;color:var(--text2);width:38px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tl-bar{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;position:relative;}
-.tl-seg{position:absolute;top:0;height:100%;border-radius:2px;}
-.tl-dur{font-size:10px;color:var(--text2);width:30px;text-align:right;flex-shrink:0;}
+/* timeline */
+.tl-wrap{display:flex;flex-direction:column;gap:6px;}
+.tl-hour-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;}
+.tl-hour-label{font-size:10px;color:var(--accent);letter-spacing:1px;margin-bottom:6px;}
+.tl-persons{display:flex;gap:4px;}
+.tl-person-seg{flex:1;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#000;font-weight:500;}
 
+/* overlay */
 .opt-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .opt-label{font-size:13px;}
 .text-sub{margin-top:8px;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
@@ -151,8 +149,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .div-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
 .div-row label{font-size:13px;flex:1;}
 #divColor{width:40px;height:28px;border:1px solid var(--border);border-radius:6px;background:var(--s2);cursor:pointer;padding:2px;}
+
 .canvas-wrap{display:flex;justify-content:center;margin-bottom:20px;}
-#mergeCanvas{max-width:100%;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+#mergeCanvas{max-width:100%;max-height:42vh;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
 
 /* modal */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;align-items:center;justify-content:center;}
@@ -165,13 +164,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .prog-txt{font-size:11px;color:var(--text2);}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spinner{width:26px;height:26px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
-
 .cam-error{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:50;padding:40px;text-align:center;}
 .cam-error.show{display:flex;}
 .cam-error h3{font-family:'Playfair Display',serif;color:var(--danger);font-size:18px;}
 .cam-error p{color:var(--text2);font-size:13px;line-height:1.6;}
 .cam-error button{background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
-
 .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:10px 20px;font-size:13px;color:var(--text);opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;z-index:9999;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
@@ -184,31 +181,28 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
     <div class="home-header">
       <div class="logo">setlog</div>
       <div class="logo-sub">split vlog maker</div>
-      <div style="font-size:10px;color:#444;letter-spacing:1px;margin-top:2px;">v0.4</div>
+      <div class="version">v0.5</div>
     </div>
-
-    <!-- 오늘 클립 배너 -->
     <div class="today-banner" id="todayBanner">
       <div class="today-banner-top">
         <div class="today-banner-title">오늘 저장된 클립</div>
         <div class="today-clip-count"><span id="todayCount">0</span><span>개</span></div>
       </div>
-      <div class="today-strip" id="todayStrip"></div>
+      <div class="today-hours" id="todayHours"></div>
     </div>
-
     <div class="mode-cards">
       <div class="mode-card active" id="modeRecCard" onclick="selectMode('rec')">
         <div class="mode-icon">📱</div>
         <div class="mode-text">
           <h3>녹화하기</h3>
-          <p>찍을 때마다 자동 저장<br>껐다 켜도 클립 유지돼요</p>
+          <p>찍은 시각 자동 저장 · 껐다 켜도 유지<br>오늘 완성하기로 하루치 합치기</p>
         </div>
       </div>
       <div class="mode-card" id="modeMergeCard" onclick="selectMode('merge')">
         <div class="mode-icon">🎬</div>
         <div class="mode-text">
           <h3>영상 합치기</h3>
-          <p>3명의 클립을 레인에 올려<br>3분할 영상으로 완성해요</p>
+          <p>각자 클립을 시간대별로 자동 정렬<br>위아래로 쌓아 최종 영상 완성</p>
         </div>
       </div>
     </div>
@@ -233,7 +227,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
       <div class="cd-overlay" id="cdOverlay"><div class="cd-num" id="cdNum">3</div></div>
       <div class="rec-bar-wrap"><div class="rec-bar" id="recBar"></div></div>
       <div class="rec-badge" id="recBadge"><div class="rdb"></div>REC</div>
-      <div class="clip-badge" id="clipBadge" style="display:none"></div>
+      <div class="hour-badge" id="hourBadge"></div>
     </div>
   </div>
   <div class="rec-bottom">
@@ -287,15 +281,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
       <div class="sec-label">각자 클립 올리기</div>
       <div class="lanes" id="lanesWrap"></div>
     </div>
-    <div style="margin-bottom:18px;">
-      <div class="sec-label">타임라인</div>
+
+    <div style="margin-bottom:18px;" id="tlSection">
+      <div class="sec-label">시간대별 구성</div>
       <div class="tl-wrap" id="tlWrap"></div>
     </div>
+
     <div style="margin-bottom:18px;">
       <div class="sec-label">오버레이</div>
       <div class="div-row">
         <label>구분선 색상</label>
-        <input type="color" id="divColor" value="#ffffff" oninput="renderCanvas()">
+        <input type="color" id="divColor" value="#1a1a1a" oninput="renderCanvas()">
       </div>
       <div class="opt-row">
         <span class="opt-label">날짜 표시</span>
@@ -315,6 +311,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
         </select>
       </div>
     </div>
+
     <div class="canvas-wrap"><canvas id="mergeCanvas"></canvas></div>
     <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
       <button class="btn-primary" id="exportBtn" onclick="doExport()">영상 저장하기</button>
@@ -346,152 +343,134 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 // ══════════════════════════════
 //  IndexedDB
 // ══════════════════════════════
-const DB_NAME = 'setlog_db', DB_VER = 1, STORE = 'clips';
-let db = null;
+const DB_NAME='setlog_db', DB_VER=2, STORE='clips';
+let db=null;
 
-function openDB() {
-  return new Promise((res, rej) => {
-    const req = indexedDB.open(DB_NAME, DB_VER);
-    req.onupgradeneeded = e => {
-      const d = e.target.result;
-      if (!d.objectStoreNames.contains(STORE)) {
-        const s = d.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
-        s.createIndex('date', 'date', { unique: false });
+function openDB(){
+  return new Promise((res,rej)=>{
+    const req=indexedDB.open(DB_NAME,DB_VER);
+    req.onupgradeneeded=e=>{
+      const d=e.target.result;
+      if(!d.objectStoreNames.contains(STORE)){
+        const s=d.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});
+        s.createIndex('date','date',{unique:false});
       }
     };
-    req.onsuccess = e => { db = e.target.result; res(db); };
-    req.onerror = () => rej(req.error);
+    req.onsuccess=e=>{db=e.target.result;res(db);};
+    req.onerror=()=>rej(req.error);
   });
 }
 
-function saveClipToDB(blob, mime, date) {
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    const req = tx.objectStore(STORE).add({ blob, mime, date, ts: Date.now() });
-    req.onsuccess = () => res(req.result); // returns id
-    req.onerror = () => rej(req.error);
+function saveClipToDB(blob,mime,date,hour){
+  return new Promise((res,rej)=>{
+    const tx=db.transaction(STORE,'readwrite');
+    const req=tx.objectStore(STORE).add({blob,mime,date,hour,ts:Date.now()});
+    req.onsuccess=()=>res(req.result);
+    req.onerror=()=>rej(req.error);
   });
 }
 
-function getClipsByDate(date) {
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, 'readonly');
-    const idx = tx.objectStore(STORE).index('date');
-    const req = idx.getAll(date);
-    req.onsuccess = () => res(req.result);
-    req.onerror = () => rej(req.error);
+function getClipsByDate(date){
+  return new Promise((res,rej)=>{
+    const tx=db.transaction(STORE,'readonly');
+    const req=tx.objectStore(STORE).index('date').getAll(date);
+    req.onsuccess=()=>res(req.result);
+    req.onerror=()=>rej(req.error);
   });
 }
 
-function deleteClipFromDB(id) {
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    const req = tx.objectStore(STORE).delete(id);
-    req.onsuccess = res; req.onerror = () => rej(req.error);
+function deleteClipFromDB(id){
+  return new Promise((res,rej)=>{
+    const tx=db.transaction(STORE,'readwrite');
+    const req=tx.objectStore(STORE).delete(id);
+    req.onsuccess=res; req.onerror=()=>rej(req.error);
   });
 }
 
-function todayStr() {
-  return new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '-').replace('.', '');
+function todayStr(){
+  return new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s*/g,'-').replace(/-$/,'');
 }
+function currentHour(){ return new Date().getHours(); }
 
 // ══════════════════════════════
 //  STATE
 // ══════════════════════════════
-let selectedMode = 'rec';
-const R = {
-  stream: null, facing: 'user', mr: null, isRec: false,
-  cdTimer: null, recTimer: null, duration: 5,
-  clips: [], // {id(db), blob, mime, url, thumbVid}
-};
-const LANE_COLORS = ['#d4a96a','#6ab4d4','#5ce08a','#c96ad4'];
-const LANE_NAMES  = ['나','친구1','친구2','친구3'];
-const M = {
-  ratio: '9:16', animFrame: null, pendingLane: null,
-  personCount: 3,
-  lanes: [
-    { name: '나',    color: '#d4a96a', clips: [] },
-    { name: '친구1', color: '#6ab4d4', clips: [] },
-    { name: '친구2', color: '#5ce08a', clips: [] },
-  ],
+let selectedMode='rec';
+const LANE_COLORS=['#d4a96a','#6ab4d4','#5ce08a','#c96ad4'];
+const LANE_NAMES=['나','친구1','친구2','친구3'];
+
+const R={
+  stream:null,facing:'user',mr:null,isRec:false,
+  cdTimer:null,recTimer:null,duration:5,
+  clips:[], // {id,blob,mime,url,thumbVid,hour}
 };
 
-function pickPersons(n) {
-  M.personCount = n;
-  document.querySelectorAll('.person-btn').forEach(b => b.classList.toggle('active', +b.dataset.n === n));
-  // Resize lanes array
-  while (M.lanes.length < n) {
-    const i = M.lanes.length;
-    M.lanes.push({ name: LANE_NAMES[i] || ('사람'+(i+1)), color: LANE_COLORS[i] || '#aaa', clips: [] });
-  }
-  M.lanes = M.lanes.slice(0, n);
-  buildLanes(); renderCanvas();
-}
+const M={
+  ratio:'9:16',animFrame:null,pendingLane:null,personCount:3,
+  lanes:[
+    {name:'나',    color:'#d4a96a',clips:[]},
+    {name:'친구1', color:'#6ab4d4',clips:[]},
+    {name:'친구2', color:'#5ce08a',clips:[]},
+  ],
+};
 
 // ══════════════════════════════
 //  INIT
 // ══════════════════════════════
-async function init() {
+async function init(){
   await openDB();
   await loadTodayClips();
   refreshHomeBanner();
 }
 init();
 
-async function loadTodayClips() {
-  const rows = await getClipsByDate(todayStr());
-  R.clips = [];
-  for (const row of rows) {
-    const url = URL.createObjectURL(row.blob);
-    const v = makeThumbVid(url);
-    R.clips.push({ id: row.id, blob: row.blob, mime: row.mime, url, thumbVid: v });
+async function loadTodayClips(){
+  const rows=await getClipsByDate(todayStr());
+  R.clips=[];
+  for(const row of rows){
+    const url=URL.createObjectURL(row.blob);
+    const v=makeThumbVid(url);
+    R.clips.push({id:row.id,blob:row.blob,mime:row.mime,url,thumbVid:v,hour:row.hour??currentHour()});
   }
 }
 
-function makeThumbVid(url) {
-  const v = document.createElement('video');
-  v.src = url; v.muted = true; v.loop = true; v.playsInline = true;
-  v.addEventListener('loadeddata', () => v.play(), { once: true });
-  v.load();
-  return v;
+function makeThumbVid(url){
+  const v=document.createElement('video');
+  v.src=url; v.muted=true; v.loop=true; v.playsInline=true;
+  v.addEventListener('loadeddata',()=>v.play(),{once:true});
+  v.load(); return v;
 }
 
-function refreshHomeBanner() {
-  const banner = document.getElementById('todayBanner');
-  const strip = document.getElementById('todayStrip');
-  const count = document.getElementById('todayCount');
-  if (R.clips.length === 0) { banner.style.display = 'none'; return; }
-  banner.style.display = 'block';
-  count.textContent = R.clips.length;
-  strip.innerHTML = '';
-  R.clips.slice(-8).forEach(c => {
-    const div = document.createElement('div'); div.className = 'today-thumb';
-    const v = document.createElement('video');
-    v.src = c.url; v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
-    v.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-    div.appendChild(v); strip.appendChild(div);
-  });
+function refreshHomeBanner(){
+  const banner=document.getElementById('todayBanner');
+  const hours=document.getElementById('todayHours');
+  document.getElementById('todayCount').textContent=R.clips.length;
+  if(R.clips.length===0){banner.style.display='none';return;}
+  banner.style.display='block';
+  // show unique hours
+  const hs=[...new Set(R.clips.map(c=>c.hour))].sort((a,b)=>a-b);
+  hours.innerHTML=hs.map(h=>`<div class="hour-tag">${h}시 (${R.clips.filter(c=>c.hour===h).length}개)</div>`).join('');
 }
 
 // ══════════════════════════════
 //  HOME
 // ══════════════════════════════
-function selectMode(m) {
-  selectedMode = m;
-  document.getElementById('modeRecCard').classList.toggle('active', m === 'rec');
-  document.getElementById('modeMergeCard').classList.toggle('active', m === 'merge');
+function selectMode(m){
+  selectedMode=m;
+  document.getElementById('modeRecCard').classList.toggle('active',m==='rec');
+  document.getElementById('modeMergeCard').classList.toggle('active',m==='merge');
 }
 selectMode('rec');
 
-function goFromHome() {
-  if (selectedMode === 'rec') goRecord();
+function goFromHome(){
+  if(selectedMode==='rec') goRecord();
   else goMerge();
 }
 
-function goHome() {
+function goHome(){
   stopRec();
-  if (R.stream) { R.stream.getTracks().forEach(t => t.stop()); R.stream = null; }
-  if (M.animFrame) cancelAnimationFrame(M.animFrame);
+  if(R.stream){R.stream.getTracks().forEach(t=>t.stop());R.stream=null;}
+  if(M.animFrame) cancelAnimationFrame(M.animFrame);
   refreshHomeBanner();
   showScreen('homeScreen');
 }
@@ -499,262 +478,255 @@ function goHome() {
 // ══════════════════════════════
 //  RECORD
 // ══════════════════════════════
-async function goRecord() {
+async function goRecord(){
   showScreen('recordScreen');
-  document.getElementById('recDateLabel').textContent = todayStr();
+  document.getElementById('recDateLabel').textContent=todayStr();
+  updateHourBadge();
   sizeLiveBox();
   renderClipsStrip();
   await startCam();
 }
 
-function sizeLiveBox() {
-  const box = document.getElementById('liveBox');
-  const maxW = Math.min(window.innerWidth - 40, 360), maxH = window.innerHeight * 0.44;
-  const asp = 16 / 9; let w = maxW, h = w / asp;
-  if (h > maxH) { h = maxH; w = h * asp; }
-  box.style.width = Math.round(w) + 'px'; box.style.height = Math.round(h) + 'px';
+function updateHourBadge(){
+  document.getElementById('hourBadge').textContent=currentHour()+'시';
 }
 
-async function startCam() {
-  try {
-    if (R.stream) R.stream.getTracks().forEach(t => t.stop());
-    R.stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: R.facing, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: true
+function sizeLiveBox(){
+  const box=document.getElementById('liveBox');
+  const maxW=Math.min(window.innerWidth-40,260),maxH=window.innerHeight*0.44;
+  const asp=9/16; let w=maxW,h=w/asp;
+  if(h>maxH){h=maxH;w=h*asp;}
+  box.style.width=Math.round(w)+'px'; box.style.height=Math.round(h)+'px';
+}
+
+async function startCam(){
+  try{
+    if(R.stream) R.stream.getTracks().forEach(t=>t.stop());
+    R.stream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:R.facing,width:{ideal:1280},height:{ideal:720}},audio:true
     });
-    document.getElementById('liveVideo').srcObject = R.stream;
-    document.getElementById('bgCam').srcObject = R.stream;
-    document.getElementById('liveVideo').style.transform = `scaleX(${R.facing === 'user' ? -1 : 1})`;
-  } catch(e) { document.getElementById('camError').classList.add('show'); }
+    document.getElementById('liveVideo').srcObject=R.stream;
+    document.getElementById('bgCam').srcObject=R.stream;
+    document.getElementById('liveVideo').style.transform='scaleX('+(R.facing==='user'?-1:1)+')';
+  }catch(e){document.getElementById('camError').classList.add('show');}
 }
 
-async function flipCam() { R.facing = R.facing === 'user' ? 'environment' : 'user'; await startCam(); }
+async function flipCam(){R.facing=R.facing==='user'?'environment':'user';await startCam();}
 
-function updateDur() {
-  R.duration = +document.getElementById('durSlider').value;
-  document.getElementById('durVal').innerHTML = `${R.duration}<span>초</span>`;
+function updateDur(){
+  R.duration=+document.getElementById('durSlider').value;
+  document.getElementById('durVal').innerHTML=R.duration+'<span>초</span>';
 }
 
-function startRec() {
-  if (R.isRec) return;
-  document.getElementById('recBtn').disabled = true;
-  document.getElementById('recHint').textContent = '';
-  runCD(3, () => doRec());
+function startRec(){
+  if(R.isRec) return;
+  updateHourBadge();
+  document.getElementById('recBtn').disabled=true;
+  document.getElementById('recHint').textContent='';
+  runCD(3,()=>doRec());
 }
 
-function runCD(n, cb) {
-  const ov = document.getElementById('cdOverlay'), num = document.getElementById('cdNum');
-  ov.classList.add('show'); num.textContent = n;
-  num.style.animation = 'none'; void num.offsetWidth; num.style.animation = '';
-  if (n > 0) R.cdTimer = setTimeout(() => runCD(n - 1, cb), 1000);
-  else { ov.classList.remove('show'); cb(); }
+function runCD(n,cb){
+  const ov=document.getElementById('cdOverlay'),num=document.getElementById('cdNum');
+  ov.classList.add('show'); num.textContent=n;
+  num.style.animation='none'; void num.offsetWidth; num.style.animation='';
+  if(n>0) R.cdTimer=setTimeout(()=>runCD(n-1,cb),1000);
+  else{ov.classList.remove('show');cb();}
 }
 
-function doRec() {
-  if (!R.stream) return;
-  R.isRec = true;
-  const btn = document.getElementById('recBtn');
-  btn.classList.add('recording'); btn.disabled = false;
-  document.getElementById('recBadge').style.display = 'flex';
-  const bar = document.getElementById('recBar');
-  bar.style.transition = 'none'; bar.style.width = '0%';
+function doRec(){
+  if(!R.stream) return;
+  R.isRec=true;
+  const btn=document.getElementById('recBtn');
+  btn.classList.add('recording'); btn.disabled=false;
+  document.getElementById('recBadge').style.display='flex';
+  const bar=document.getElementById('recBar');
+  bar.style.transition='none'; bar.style.width='0%';
   void bar.offsetWidth;
-  bar.style.transition = `width ${R.duration}s linear`;
-  requestAnimationFrame(() => bar.style.width = '100%');
-
-  const mime = getBestMime();
-  R.mr = new MediaRecorder(R.stream, { mimeType: mime });
-  const chunks = [];
-  R.mr.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-  R.mr.onstop = async () => {
-    const blob = new Blob(chunks, { type: mime });
-    await onClipDone(blob, mime);
+  bar.style.transition='width '+R.duration+'s linear';
+  requestAnimationFrame(()=>bar.style.width='100%');
+  const mime=getBestMime();
+  R.mr=new MediaRecorder(R.stream,{mimeType:mime});
+  const chunks=[];
+  R.mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
+  R.mr.onstop=async()=>{
+    const blob=new Blob(chunks,{type:mime});
+    await onClipDone(blob,mime);
   };
   R.mr.start(100);
-  R.recTimer = setTimeout(() => { if (R.mr && R.mr.state !== 'inactive') R.mr.stop(); }, R.duration * 1000);
+  R.recTimer=setTimeout(()=>{if(R.mr&&R.mr.state!=='inactive')R.mr.stop();},R.duration*1000);
 }
 
-async function onClipDone(blob, mime) {
-  R.isRec = false;
-  const btn = document.getElementById('recBtn');
-  btn.classList.remove('recording'); btn.disabled = false;
-  document.getElementById('recBadge').style.display = 'none';
-  document.getElementById('recBar').style.transition = 'none';
-  document.getElementById('recBar').style.width = '0%';
-
-  // IndexedDB에 저장
-  try {
-    const id = await saveClipToDB(blob, mime, todayStr());
-    const url = URL.createObjectURL(blob);
-    const v = makeThumbVid(url);
-    R.clips.push({ id, blob, mime, url, thumbVid: v });
-    showToast(`✓ ${R.clips.length}번째 클립 저장됨`);
-  } catch(e) {
-    showToast('저장 실패 😢 저장공간을 확인해주세요');
-  }
-
+async function onClipDone(blob,mime){
+  R.isRec=false;
+  const btn=document.getElementById('recBtn');
+  btn.classList.remove('recording'); btn.disabled=false;
+  document.getElementById('recBadge').style.display='none';
+  document.getElementById('recBar').style.transition='none';
+  document.getElementById('recBar').style.width='0%';
+  const hour=currentHour();
+  try{
+    const id=await saveClipToDB(blob,mime,todayStr(),hour);
+    const url=URL.createObjectURL(blob);
+    const v=makeThumbVid(url);
+    R.clips.push({id,blob,mime,url,thumbVid:v,hour});
+    showToast('✓ '+hour+'시 클립 저장됨 (총 '+R.clips.length+'개)');
+  }catch(e){showToast('저장 실패 😢');}
   renderClipsStrip();
-  document.getElementById('recHint').textContent = '버튼을 누르면 3초 후 자동 녹화';
+  document.getElementById('recHint').textContent='버튼을 누르면 3초 후 자동 녹화';
 }
 
-function renderClipsStrip() {
-  const row = document.getElementById('clipsRow');
-  const strip = document.getElementById('clipsStrip');
-  const finBtn = document.getElementById('finishBtn');
-  const badge = document.getElementById('clipBadge');
-
-  if (R.clips.length === 0) {
-    row.style.display = 'none'; finBtn.style.display = 'none';
-    badge.style.display = 'none'; return;
-  }
-  row.style.display = 'flex'; finBtn.style.display = 'block';
-  badge.style.display = 'block'; badge.textContent = `📎 ${R.clips.length}`;
-  document.getElementById('clipsCount').textContent = `${R.clips.length}개`;
-
-  strip.innerHTML = '';
-  R.clips.forEach((c, i) => {
-    const div = document.createElement('div'); div.className = 'clip-thumb';
-    const v = document.createElement('video');
-    v.src = c.url; v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
-    v.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-    const del = document.createElement('div'); del.className = 'cdel'; del.textContent = '✕';
-    del.onclick = async () => {
-      await deleteClipFromDB(c.id);
-      URL.revokeObjectURL(c.url);
-      R.clips.splice(i, 1);
-      renderClipsStrip();
+function renderClipsStrip(){
+  const row=document.getElementById('clipsRow');
+  const strip=document.getElementById('clipsStrip');
+  const finBtn=document.getElementById('finishBtn');
+  if(R.clips.length===0){row.style.display='none';finBtn.style.display='none';return;}
+  row.style.display='flex'; finBtn.style.display='block';
+  document.getElementById('clipsCount').textContent=R.clips.length+'개';
+  strip.innerHTML='';
+  R.clips.forEach((c,i)=>{
+    const div=document.createElement('div'); div.className='clip-thumb';
+    const v=document.createElement('video');
+    v.src=c.url; v.muted=true; v.loop=true; v.autoplay=true; v.playsInline=true;
+    v.style.cssText='width:100%;height:100%;object-fit:cover;';
+    const htag=document.createElement('div'); htag.className='clip-hour-tag'; htag.textContent=c.hour+'시';
+    const del=document.createElement('div'); del.className='cdel'; del.textContent='✕';
+    del.onclick=async()=>{
+      await deleteClipFromDB(c.id); URL.revokeObjectURL(c.url);
+      R.clips.splice(i,1); renderClipsStrip();
     };
-    div.appendChild(v); div.appendChild(del); strip.appendChild(div);
+    div.appendChild(v); div.appendChild(htag); div.appendChild(del); strip.appendChild(div);
   });
 }
 
-async function finishToday() {
-  if (R.clips.length === 0) { showToast('클립이 없어요!'); return; }
-  if (!window.MediaRecorder) { alert('Chrome 브라우저를 사용해 주세요.'); return; }
+async function finishToday(){
+  if(R.clips.length===0){showToast('클립이 없어요!');return;}
+  if(!window.MediaRecorder){alert('Chrome 브라우저를 사용해 주세요.');return;}
+  showModal('오늘 영상 완성 중','클립 '+R.clips.length+'개를 하나로 합치고 있어요...');
 
-  showModal('오늘 영상 완성 중', `클립 ${R.clips.length}개를 하나로 합치고 있어요...`);
-
-  // 모든 클립 video 로드 대기
-  for (const c of R.clips) {
-    if (c.thumbVid.readyState < 1) {
-      await new Promise(res => { c.thumbVid.addEventListener('loadedmetadata', res, { once: true }); });
-    }
+  for(const c of R.clips){
+    if(c.thumbVid.readyState<1)
+      await new Promise(res=>{c.thumbVid.addEventListener('loadedmetadata',res,{once:true});});
   }
 
-  const first = R.clips[0].thumbVid;
-  const W = first.videoWidth || 720, H = first.videoHeight || 1280;
-  const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  const stream = canvas.captureStream(30);
+  const first=R.clips[0].thumbVid;
+  const W=first.videoWidth||720,H=first.videoHeight||1280;
+  const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const stream=canvas.captureStream(30);
 
-  // 오디오
-  try {
-    const actx = new (window.AudioContext || window.webkitAudioContext)();
-    const dest = actx.createMediaStreamDestination();
-    for (const c of R.clips) { try { actx.createMediaElementSource(c.thumbVid).connect(dest); } catch(e) {} }
-    dest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
-  } catch(e) {}
+  try{
+    const actx=new(window.AudioContext||window.webkitAudioContext)();
+    const dest=actx.createMediaStreamDestination();
+    for(const c of R.clips){try{actx.createMediaElementSource(c.thumbVid).connect(dest);}catch(e){}}
+    dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
+  }catch(e){}
 
-  const mime = getBestMime();
-  const mr = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
-  const chunks = []; mr.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+  const mime=getBestMime();
+  const mr=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:8_000_000});
+  const chunks=[]; mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
   mr.start(100);
 
-  const totalDur = R.clips.reduce((s, c) => s + (isFinite(c.thumbVid.duration) ? c.thumbVid.duration : 5), 0);
-  let clipIdx = 0, clipStartT = performance.now(), globalStartT = performance.now();
+  const totalDur=R.clips.reduce((s,c)=>s+(isFinite(c.thumbVid.duration)?c.thumbVid.duration:5),0);
+  let clipIdx=0,clipStartT=performance.now(),globalStartT=performance.now();
+  R.clips[0].thumbVid.currentTime=0; R.clips[0].thumbVid.play();
 
-  R.clips[0].thumbVid.currentTime = 0; R.clips[0].thumbVid.play();
-
-  await new Promise(resolve => {
-    function loop() {
-      const now = performance.now();
-      const totalElapsed = (now - globalStartT) / 1000;
-      const clipElapsed = (now - clipStartT) / 1000;
-      const cur = R.clips[clipIdx];
-      const curDur = isFinite(cur.thumbVid.duration) ? cur.thumbVid.duration : 5;
-
-      if (cur.thumbVid.readyState >= 2) ctx.drawImage(cur.thumbVid, 0, 0, W, H);
-
-      if (clipElapsed >= curDur) {
+  await new Promise(resolve=>{
+    function loop(){
+      const now=performance.now();
+      const totalElapsed=(now-globalStartT)/1000;
+      const clipElapsed=(now-clipStartT)/1000;
+      const cur=R.clips[clipIdx];
+      const curDur=isFinite(cur.thumbVid.duration)?cur.thumbVid.duration:5;
+      if(cur.thumbVid.readyState>=2) ctx.drawImage(cur.thumbVid,0,0,W,H);
+      if(clipElapsed>=curDur){
         cur.thumbVid.pause(); clipIdx++;
-        if (clipIdx >= R.clips.length) { resolve(); return; }
-        clipStartT = performance.now();
-        R.clips[clipIdx].thumbVid.currentTime = 0; R.clips[clipIdx].thumbVid.play();
+        if(clipIdx>=R.clips.length){resolve();return;}
+        clipStartT=performance.now();
+        R.clips[clipIdx].thumbVid.currentTime=0; R.clips[clipIdx].thumbVid.play();
       }
-
-      const p = Math.min(100, Math.round(totalElapsed / totalDur * 100));
-      document.getElementById('mFill').style.width = p + '%';
-      document.getElementById('mTxt').textContent = p + '%';
+      const p=Math.min(100,Math.round(totalElapsed/totalDur*100));
+      document.getElementById('mFill').style.width=p+'%';
+      document.getElementById('mTxt').textContent=p+'%';
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
   });
 
-  mr.stop(); await new Promise(res => mr.onstop = res);
-
-  const blob = new Blob(chunks, { type: mime });
-  const ext = mime.includes('mp4') ? 'mp4' : 'webm';
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `setlog_${todayStr()}.${ext}`; a.click();
-
-  hideModal(); showToast('🎬 오늘 영상 완성! 다운로드 폴더에 저장됐어요');
-
-  // DB에서 오늘 클립 삭제
-  for (const c of R.clips) { await deleteClipFromDB(c.id); URL.revokeObjectURL(c.url); }
-  R.clips = [];
-  renderClipsStrip();
+  mr.stop(); await new Promise(res=>mr.onstop=res);
+  const blob=new Blob(chunks,{type:mime});
+  const ext=mime.includes('mp4')?'mp4':'webm';
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='setlog_'+todayStr()+'.'+ext; a.click();
+  hideModal(); showToast('🎬 오늘 영상 완성!');
+  for(const c of R.clips){await deleteClipFromDB(c.id); URL.revokeObjectURL(c.url);}
+  R.clips=[]; renderClipsStrip();
 }
 
-function stopRec() {
+function stopRec(){
   clearTimeout(R.cdTimer); clearTimeout(R.recTimer);
-  if (R.mr && R.mr.state !== 'inactive') R.mr.stop();
-  R.isRec = false;
+  if(R.mr&&R.mr.state!=='inactive') R.mr.stop();
+  R.isRec=false;
 }
 
-function getBestMime() {
-  const t = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'];
-  return t.find(x => MediaRecorder.isTypeSupported(x)) || 'video/webm';
+function getBestMime(){
+  const t=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+  return t.find(x=>MediaRecorder.isTypeSupported(x))||'video/webm';
 }
 
 // ══════════════════════════════
 //  MERGE
 // ══════════════════════════════
-function goMerge() { showScreen('mergeScreen'); buildLanes(); renderCanvas(); }
+function goMerge(){showScreen('mergeScreen');buildLanes();renderCanvas();}
 
-function pickRatio(r) {
-  M.ratio = r;
-  document.querySelectorAll('.ratio-btn').forEach(b => b.classList.toggle('active', b.dataset.r === r));
+function pickPersons(n){
+  M.personCount=n;
+  document.querySelectorAll('.person-btn').forEach(b=>b.classList.toggle('active',+b.dataset.n===n));
+  while(M.lanes.length<n){
+    const i=M.lanes.length;
+    M.lanes.push({name:LANE_NAMES[i]||('사람'+(i+1)),color:LANE_COLORS[i]||'#aaa',clips:[]});
+  }
+  M.lanes=M.lanes.slice(0,n);
+  buildLanes(); renderCanvas();
+}
+
+function pickRatio(r){
+  M.ratio=r;
+  document.querySelectorAll('.ratio-btn').forEach(b=>b.classList.toggle('active',b.dataset.r===r));
   renderCanvas();
 }
-function toggleTxt() {
-  const tog = document.getElementById('txtToggle'); tog.classList.toggle('on');
-  document.getElementById('txtSub').style.display = tog.classList.contains('on') ? 'flex' : 'none';
+
+function toggleTxt(){
+  const tog=document.getElementById('txtToggle'); tog.classList.toggle('on');
+  document.getElementById('txtSub').style.display=tog.classList.contains('on')?'flex':'none';
   renderCanvas();
 }
 
-function buildLanes() {
-  const wrap = document.getElementById('lanesWrap'); wrap.innerHTML = '';
-  M.lanes.forEach((lane, li) => {
-    const el = document.createElement('div'); el.className = 'lane';
-    const hdr = document.createElement('div'); hdr.className = 'lane-hdr';
-    const dot = document.createElement('div'); dot.className = 'lane-dot'; dot.style.background = lane.color;
-    const inp = document.createElement('input'); inp.className = 'lane-name'; inp.value = lane.name;
-    inp.placeholder = `사람 ${li + 1}`; inp.oninput = e => lane.name = e.target.value;
-    const add = document.createElement('button'); add.className = 'lane-add';
-    add.textContent = '+ 추가'; add.onclick = () => openLanePicker(li);
+function buildLanes(){
+  const wrap=document.getElementById('lanesWrap'); wrap.innerHTML='';
+  M.lanes.forEach((lane,li)=>{
+    const el=document.createElement('div'); el.className='lane';
+    const hdr=document.createElement('div'); hdr.className='lane-hdr';
+    const dot=document.createElement('div'); dot.className='lane-dot'; dot.style.background=lane.color;
+    const inp=document.createElement('input'); inp.className='lane-name'; inp.value=lane.name;
+    inp.placeholder='사람 '+(li+1); inp.oninput=e=>lane.name=e.target.value;
+    const add=document.createElement('button'); add.className='lane-add';
+    add.textContent='+ 추가'; add.onclick=()=>openLanePicker(li);
     hdr.appendChild(dot); hdr.appendChild(inp); hdr.appendChild(add);
-    const clips = document.createElement('div'); clips.className = 'lane-clips';
-    if (lane.clips.length === 0) {
-      const em = document.createElement('div'); em.className = 'lane-empty'; em.textContent = '클립 없음';
+    const clips=document.createElement('div'); clips.className='lane-clips';
+    if(lane.clips.length===0){
+      const em=document.createElement('div'); em.className='lane-empty'; em.textContent='클립 없음';
       clips.appendChild(em);
     } else {
-      lane.clips.forEach((c, ci) => {
-        const cd = document.createElement('div'); cd.className = 'lane-clip';
-        const v = document.createElement('video');
-        v.src = c.url; v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
-        const del = document.createElement('div'); del.className = 'ldel'; del.textContent = '✕';
-        del.onclick = e => { e.stopPropagation(); removeLaneClip(li, ci); };
-        cd.appendChild(v); cd.appendChild(del); clips.appendChild(cd);
+      lane.clips.forEach((c,ci)=>{
+        const cd=document.createElement('div'); cd.className='lane-clip';
+        const v=document.createElement('video');
+        v.src=c.url; v.muted=true; v.loop=true; v.autoplay=true; v.playsInline=true;
+        const ht=document.createElement('div'); ht.className='lane-clip-hour'; ht.textContent=c.hour+'시';
+        const del=document.createElement('div'); del.className='ldel'; del.textContent='✕';
+        del.onclick=e=>{e.stopPropagation();removeLaneClip(li,ci);};
+        cd.appendChild(v); cd.appendChild(ht); cd.appendChild(del); clips.appendChild(cd);
       });
     }
     el.appendChild(hdr); el.appendChild(clips); wrap.appendChild(el);
@@ -762,119 +734,159 @@ function buildLanes() {
   buildTimeline();
 }
 
-function openLanePicker(li) {
-  M.pendingLane = li;
+function openLanePicker(li){
+  M.pendingLane=li;
   document.getElementById('laneFile').click();
 }
 
-document.getElementById('laneFile').addEventListener('change', async function(e) {
-  if (M.pendingLane === null) return;
-  const li = M.pendingLane;
-  for (const file of [...e.target.files]) {
-    const url = URL.createObjectURL(file);
-    const vid = document.createElement('video');
-    vid.src = url; vid.muted = true; vid.loop = true; vid.playsInline = true;
-    await new Promise(res => { vid.addEventListener('loadedmetadata', res, { once: true }); vid.load(); });
+document.getElementById('laneFile').addEventListener('change',async function(e){
+  if(M.pendingLane===null) return;
+  const li=M.pendingLane;
+  for(const file of [...e.target.files]){
+    const url=URL.createObjectURL(file);
+    const vid=document.createElement('video');
+    vid.src=url; vid.muted=true; vid.loop=true; vid.playsInline=true;
+    await new Promise(res=>{vid.addEventListener('loadedmetadata',res,{once:true});vid.load();});
     vid.play();
-    M.lanes[li].clips.push({ file, url, videoEl: vid, duration: vid.duration || 5 });
+    // 파일명에서 시간 추출 시도 (setlog_clip_TIMESTAMP.webm)
+    const hour=extractHourFromFile(file);
+    M.lanes[li].clips.push({file,url,videoEl:vid,duration:vid.duration||5,hour});
   }
-  this.value = ''; M.pendingLane = null;
+  // 시간순 정렬
+  M.lanes[li].clips.sort((a,b)=>a.hour-b.hour);
+  this.value=''; M.pendingLane=null;
   buildLanes(); renderCanvas();
 });
 
-function removeLaneClip(li, ci) {
+function extractHourFromFile(file){
+  // 파일명 또는 수정시각에서 시간 추출
+  const ts=file.lastModified;
+  if(ts) return new Date(ts).getHours();
+  return 0;
+}
+
+function removeLaneClip(li,ci){
   URL.revokeObjectURL(M.lanes[li].clips[ci].url);
-  M.lanes[li].clips.splice(ci, 1);
+  M.lanes[li].clips.splice(ci,1);
   buildLanes(); renderCanvas();
 }
 
-function buildTimeline() {
-  const wrap = document.getElementById('tlWrap'); wrap.innerHTML = '';
-  const totals = M.lanes.map(l => l.clips.reduce((s, c) => s + (c.duration || 5), 0));
-  const maxTotal = Math.max(...totals, 1);
-  M.lanes.forEach((lane, li) => {
-    const row = document.createElement('div'); row.className = 'tl-row';
-    const lbl = document.createElement('div'); lbl.className = 'tl-name'; lbl.textContent = lane.name || `사람${li+1}`;
-    const bar = document.createElement('div'); bar.className = 'tl-bar';
-    let off = 0;
-    lane.clips.forEach(c => {
-      const seg = document.createElement('div'); seg.className = 'tl-seg';
-      const w = (c.duration || 5) / maxTotal * 100;
-      seg.style.cssText = `left:${off/maxTotal*100}%;width:${w}%;background:${lane.color};`;
-      bar.appendChild(seg); off += c.duration || 5;
+// 시간대별로 클립 그룹핑
+function buildHourGroups(){
+  // 모든 레인에서 시간대 수집
+  const allHours=new Set();
+  M.lanes.forEach(lane=>lane.clips.forEach(c=>allHours.add(c.hour)));
+  const hours=[...allHours].sort((a,b)=>a-b);
+
+  // 각 시간대별로 각 레인의 클립들 묶기
+  return hours.map(h=>({
+    hour:h,
+    // 각 레인에서 해당 시간대 클립들
+    laneCl:M.lanes.map(lane=>lane.clips.filter(c=>c.hour===h))
+  }));
+}
+
+function buildTimeline(){
+  const wrap=document.getElementById('tlWrap'); wrap.innerHTML='';
+  const groups=buildHourGroups();
+  if(groups.length===0) return;
+
+  groups.forEach(g=>{
+    const block=document.createElement('div'); block.className='tl-hour-block';
+    const lbl=document.createElement('div'); lbl.className='tl-hour-label'; lbl.textContent=g.hour+'시';
+    const persons=document.createElement('div'); persons.className='tl-persons';
+    M.lanes.forEach((lane,li)=>{
+      const seg=document.createElement('div'); seg.className='tl-person-seg';
+      const cnt=g.laneCl[li].length;
+      if(cnt>0){
+        seg.style.background=lane.color;
+        seg.textContent=(lane.name||('사람'+(li+1)))+' '+cnt+'개';
+      } else {
+        seg.style.background='#1a1a1a';
+        seg.style.color='#444';
+        seg.textContent='없음';
+      }
+      persons.appendChild(seg);
     });
-    const dur = document.createElement('div'); dur.className = 'tl-dur';
-    dur.textContent = totals[li].toFixed(1) + 's';
-    row.appendChild(lbl); row.appendChild(bar); row.appendChild(dur);
-    wrap.appendChild(row);
+    block.appendChild(lbl); block.appendChild(persons);
+    wrap.appendChild(block);
   });
 }
 
-function getCanvasSize() {
-  return { W: 1080, H: 360 }; // 16:9 가로 3분할에 맞는 비율
-}
-function getCellRects(W, H, gap = 2) {
-  const cw = Math.floor((W - gap * 2) / 3);
-  return [
-    { x: 0,          y: 0, w: cw, h: H },
-    { x: cw+gap,     y: 0, w: cw, h: H },
-    { x: (cw+gap)*2, y: 0, w: W-(cw+gap)*2, h: H }
-  ];
+// ══════════════════════════════
+//  CANVAS RENDER (세로 쌓기)
+// ══════════════════════════════
+function getCanvasSize(){
+  const [w,h]=M.ratio.split(':').map(Number),BASE=480;
+  return w>h?{W:BASE,H:Math.round(BASE*h/w)}:{W:Math.round(BASE*w/h),H:BASE};
 }
 
-function renderCanvas() {
-  const canvas = document.getElementById('mergeCanvas');
-  const ctx = canvas.getContext('2d');
-  const { W, H } = getCanvasSize(); canvas.width = W; canvas.height = H;
-  const divColor = document.getElementById('divColor').value;
-  const rects = getCellRects(W, H);
-  ctx.fillStyle = divColor; ctx.fillRect(0, 0, W, H);
-  rects.forEach((r, i) => {
-    ctx.save(); ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.clip();
-    const lane = M.lanes[i];
-    let vid = null;
-    if (lane && lane.clips.length > 0) {
-      for (const c of lane.clips) { if (c.videoEl && c.videoEl.readyState >= 2) { vid = c.videoEl; break; } }
+// 세로 등분: 각 레인이 위아래로 쌓임
+function getRowRects(W,H,n,gap=2){
+  const hh=Math.floor((H-gap*(n-1))/n);
+  return Array.from({length:n},(_,i)=>({
+    x:0, y:i*(hh+gap), w:W, h: i===n-1 ? H-i*(hh+gap) : hh
+  }));
+}
+
+// 현재 각 레인의 첫번째 클립을 preview로 보여줌
+function renderCanvas(){
+  const canvas=document.getElementById('mergeCanvas');
+  const ctx=canvas.getContext('2d');
+  const {W,H}=getCanvasSize(); canvas.width=W; canvas.height=H;
+  const n=M.lanes.length;
+  const divColor=document.getElementById('divColor').value;
+  const rects=getRowRects(W,H,n,2);
+
+  ctx.fillStyle=divColor; ctx.fillRect(0,0,W,H);
+
+  rects.forEach((r,i)=>{
+    ctx.save(); ctx.beginPath(); ctx.rect(r.x,r.y,r.w,r.h); ctx.clip();
+    const lane=M.lanes[i];
+    let vid=null;
+    if(lane&&lane.clips.length>0){
+      for(const c of lane.clips){if(c.videoEl&&c.videoEl.readyState>=2){vid=c.videoEl;break;}}
     }
-    if (vid) {
-      const vw = vid.videoWidth, vh = vid.videoHeight, sc = Math.max(r.w/vw, r.h/vh);
-      ctx.drawImage(vid, r.x+(r.w-vw*sc)/2, r.y+(r.h-vh*sc)/2, vw*sc, vh*sc);
+    if(vid){
+      const vw=vid.videoWidth,vh=vid.videoHeight,sc=Math.max(r.w/vw,r.h/vh);
+      ctx.drawImage(vid,r.x+(r.w-vw*sc)/2,r.y+(r.h-vh*sc)/2,vw*sc,vh*sc);
     } else {
-      ctx.fillStyle = '#1a1a1a'; ctx.fillRect(r.x, r.y, r.w, r.h);
-      if (lane) { ctx.fillStyle = lane.color + '33'; ctx.fillRect(r.x, r.y, r.w, r.h); }
-      ctx.fillStyle = lane ? lane.color : '#444';
-      ctx.font = `300 ${Math.min(r.w, r.h)*.09}px DM Sans`;
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText(lane ? (lane.name || `사람${i+1}`) : `사람${i+1}`, r.x+r.w/2, r.y+r.h/2);
+      ctx.fillStyle='#111'; ctx.fillRect(r.x,r.y,r.w,r.h);
+      if(lane){ctx.fillStyle=lane.color+'22';ctx.fillRect(r.x,r.y,r.w,r.h);}
+      ctx.fillStyle=lane?lane.color:'#444';
+      ctx.font='300 '+(Math.min(r.w,r.h)*.08)+'px DM Sans';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(lane?(lane.name||('사람'+(i+1))):('사람'+(i+1)),r.x+r.w/2,r.y+r.h/2);
     }
     ctx.restore();
   });
-  drawOverlays(ctx, W, H);
-  if (M.animFrame) cancelAnimationFrame(M.animFrame);
-  if (M.lanes.some(l => l.clips.length > 0)) M.animFrame = requestAnimationFrame(renderCanvas);
+
+  drawOverlays(ctx,W,H);
+  if(M.animFrame) cancelAnimationFrame(M.animFrame);
+  if(M.lanes.some(l=>l.clips.length>0)) M.animFrame=requestAnimationFrame(renderCanvas);
 }
 
-function drawOverlays(ctx, W, H) {
-  const pad = 12;
-  if (document.getElementById('dateToggle').classList.contains('on')) {
-    const now = new Date();
-    const str = now.toLocaleDateString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit' })
-               + '  ' + now.toLocaleTimeString('ko-KR', { hour:'2-digit', minute:'2-digit' });
-    ctx.save(); ctx.font = `300 ${Math.round(W*.028)}px 'DM Sans',sans-serif`;
-    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
-    ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillText(str, W-pad+1, H-pad+1);
-    ctx.fillStyle = 'rgba(255,255,255,.88)'; ctx.fillText(str, W-pad, H-pad);
+function drawOverlays(ctx,W,H){
+  const pad=12;
+  if(document.getElementById('dateToggle').classList.contains('on')){
+    const now=new Date();
+    const str=now.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})
+              +'  '+now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+    ctx.save(); ctx.font='300 '+Math.round(W*.028)+'px DM Sans,sans-serif';
+    ctx.textAlign='right'; ctx.textBaseline='bottom';
+    ctx.fillStyle='rgba(0,0,0,.35)'; ctx.fillText(str,W-pad+1,H-pad+1);
+    ctx.fillStyle='rgba(255,255,255,.88)'; ctx.fillText(str,W-pad,H-pad);
     ctx.restore();
   }
-  if (document.getElementById('txtToggle').classList.contains('on')) {
-    const txt = document.getElementById('customTxt').value; if (!txt) return;
-    const pos = document.getElementById('txtPos').value;
-    ctx.save(); ctx.font = `300 ${Math.round(W*.042)}px 'Playfair Display',serif`;
-    let x, y, align, baseline;
-    if (pos==='bl'){x=pad;y=H-pad;align='left';baseline='bottom';}
-    else if (pos==='br'){x=W-pad;y=H-pad;align='right';baseline='bottom';}
-    else if (pos==='tl'){x=pad;y=pad;align='left';baseline='top';}
-    else {x=W/2;y=H/2;align='center';baseline='middle';}
+  if(document.getElementById('txtToggle').classList.contains('on')){
+    const txt=document.getElementById('customTxt').value; if(!txt)return;
+    const pos=document.getElementById('txtPos').value;
+    ctx.save(); ctx.font='300 '+Math.round(W*.042)+'px Playfair Display,serif';
+    let x,y,align,baseline;
+    if(pos==='bl'){x=pad;y=H-pad;align='left';baseline='bottom';}
+    else if(pos==='br'){x=W-pad;y=H-pad;align='right';baseline='bottom';}
+    else if(pos==='tl'){x=pad;y=pad;align='left';baseline='top';}
+    else{x=W/2;y=H/2;align='center';baseline='middle';}
     ctx.textAlign=align; ctx.textBaseline=baseline;
     ctx.fillStyle='rgba(0,0,0,.3)'; ctx.fillText(txt,x+1,y+1);
     ctx.fillStyle='rgba(255,255,255,.9)'; ctx.fillText(txt,x,y);
@@ -882,79 +894,139 @@ function drawOverlays(ctx, W, H) {
   }
 }
 
-async function doExport() {
-  if (!M.lanes.some(l => l.clips.length > 0)) { showToast('클립을 먼저 추가해 주세요!'); return; }
-  if (!window.MediaRecorder) { alert('Chrome 브라우저를 사용해 주세요.'); return; }
-  document.getElementById('exportBtn').disabled = true;
-  showModal('영상 합치는 중', '3분할 영상을 완성하고 있어요...');
+// ══════════════════════════════
+//  EXPORT — 시간대별 순서대로
+// ══════════════════════════════
+async function doExport(){
+  if(!M.lanes.some(l=>l.clips.length>0)){showToast('클립을 먼저 추가해 주세요!');return;}
+  if(!window.MediaRecorder){alert('Chrome 브라우저를 사용해 주세요.');return;}
 
-  for (const lane of M.lanes) {
-    for (const c of lane.clips) {
-      if (c.videoEl.readyState < 1) await new Promise(res => { c.videoEl.addEventListener('loadedmetadata', res, { once: true }); c.videoEl.load(); });
+  document.getElementById('exportBtn').disabled=true;
+  showModal('영상 합치는 중','시간대별로 정렬해서 완성하고 있어요...');
+
+  // 모든 비디오 로드
+  for(const lane of M.lanes){
+    for(const c of lane.clips){
+      if(c.videoEl.readyState<1)
+        await new Promise(res=>{c.videoEl.addEventListener('loadedmetadata',res,{once:true});c.videoEl.load();});
     }
   }
 
-  const canvas = document.getElementById('mergeCanvas');
-  const { W, H } = getCanvasSize(); canvas.width = W; canvas.height = H;
-  const stream = canvas.captureStream(30);
+  const {W,H}=getCanvasSize();
+  const n=M.lanes.length;
+  const canvas=document.getElementById('mergeCanvas');
+  canvas.width=W; canvas.height=H;
+  const stream=canvas.captureStream(30);
+  const divColor=document.getElementById('divColor').value;
+  const rects=getRowRects(W,H,n,2);
 
-  try {
-    const actx = new (window.AudioContext || window.webkitAudioContext)();
-    const dest = actx.createMediaStreamDestination();
-    for (const lane of M.lanes) for (const c of lane.clips) { try { actx.createMediaElementSource(c.videoEl).connect(dest); } catch(e) {} }
-    dest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
-  } catch(e) {}
+  // 오디오
+  try{
+    const actx=new(window.AudioContext||window.webkitAudioContext)();
+    const dest=actx.createMediaStreamDestination();
+    for(const lane of M.lanes) for(const c of lane.clips){try{actx.createMediaElementSource(c.videoEl).connect(dest);}catch(e){}}
+    dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
+  }catch(e){}
 
-  const mime = getBestMime();
-  const mr = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
-  const chunks = []; mr.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+  const mime=getBestMime();
+  const mr=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:8_000_000});
+  const chunks=[]; mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
   mr.start(100);
 
-  const totals = M.lanes.map(l => l.clips.reduce((s, c) => s + (c.duration||5), 0));
-  const maxDur = Math.max(...totals, 1);
-  const laneState = M.lanes.map(lane => ({ clips: lane.clips, clipIdx: 0, elapsed: 0, color: lane.color, name: lane.name }));
-  laneState.forEach(ls => { if (ls.clips.length > 0) { ls.clips[0].videoEl.currentTime = 0; ls.clips[0].videoEl.play(); } });
+  // 시간대별 그룹
+  const groups=buildHourGroups();
 
-  const globalStart = performance.now();
-  const rects = getCellRects(W, H);
-  const divColor = document.getElementById('divColor').value;
-
-  await new Promise(resolve => {
-    function loop() {
-      const elapsed = (performance.now() - globalStart) / 1000;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = divColor; ctx.fillRect(0, 0, W, H);
-      rects.forEach((r, i) => {
-        ctx.save(); ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.clip();
-        const ls = laneState[i]; if (!ls) { ctx.fillStyle='#111'; ctx.fillRect(r.x,r.y,r.w,r.h); ctx.restore(); return; }
-        const cur = ls.clips[ls.clipIdx];
-        if (cur) {
-          const ce = elapsed - ls.elapsed;
-          if (ce >= (cur.duration||5) && ls.clipIdx < ls.clips.length-1) {
-            cur.videoEl.pause(); ls.elapsed += cur.duration||5; ls.clipIdx++;
-            const nxt = ls.clips[ls.clipIdx]; nxt.videoEl.currentTime=0; nxt.videoEl.play();
-          }
-          const v = ls.clips[ls.clipIdx].videoEl;
-          if (v.readyState >= 2) { const vw=v.videoWidth,vh=v.videoHeight,sc=Math.max(r.w/vw,r.h/vh); ctx.drawImage(v,r.x+(r.w-vw*sc)/2,r.y+(r.h-vh*sc)/2,vw*sc,vh*sc); }
-          else { ctx.fillStyle='#1a1a1a'; ctx.fillRect(r.x,r.y,r.w,r.h); }
-        } else { ctx.fillStyle='#111'; ctx.fillRect(r.x,r.y,r.w,r.h); }
-        ctx.restore();
-      });
-      drawOverlays(canvas.getContext('2d'), W, H);
-      const p = Math.min(100, Math.round(elapsed/maxDur*100));
-      document.getElementById('mFill').style.width = p + '%';
-      document.getElementById('mTxt').textContent = p + '%';
-      if (elapsed < maxDur) requestAnimationFrame(loop); else resolve();
-    }
-    requestAnimationFrame(loop);
+  // 각 그룹에서 레인별 최대 클립 길이 = 해당 시간대 재생 시간
+  // 각 레인의 클립들을 순서대로 이어붙여 재생
+  let globalStart=performance.now();
+  let totalDur=0;
+  groups.forEach(g=>{
+    const maxDur=Math.max(...M.lanes.map((_,li)=>
+      g.laneCl[li].reduce((s,c)=>s+(isFinite(c.videoEl.duration)?c.videoEl.duration:5),0)
+    ),1);
+    totalDur+=maxDur;
   });
 
-  mr.stop(); await new Promise(res => mr.onstop = res);
-  const blob = new Blob(chunks, { type: mime });
-  const ext = mime.includes('mp4') ? 'mp4' : 'webm';
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `setlog_${todayStr()}.${ext}`; a.click();
-  hideModal(); document.getElementById('exportBtn').disabled = false;
+  // 그룹별 순차 재생
+  for(let gi=0;gi<groups.length;gi++){
+    const g=groups[gi];
+
+    // 각 레인의 현재 그룹 클립 재생 상태
+    const laneStates=M.lanes.map((_,li)=>({
+      clips:g.laneCl[li], clipIdx:0, elapsed:0
+    }));
+
+    // 각 레인 첫 클립 시작
+    laneStates.forEach(ls=>{
+      if(ls.clips.length>0){ls.clips[0].videoEl.currentTime=0;ls.clips[0].videoEl.play();}
+    });
+
+    // 이 그룹의 최대 재생 시간
+    const groupDur=Math.max(...laneStates.map(ls=>
+      ls.clips.reduce((s,c)=>s+(isFinite(c.videoEl.duration)?c.videoEl.duration:5),0)
+    ),1);
+
+    const groupStart=performance.now();
+
+    await new Promise(resolve=>{
+      function loop(){
+        const now=performance.now();
+        const ge=(now-groupStart)/1000;
+        const totalElapsed=(now-globalStart)/1000;
+        const ctx=canvas.getContext('2d');
+
+        ctx.fillStyle=divColor; ctx.fillRect(0,0,W,H);
+
+        rects.forEach((r,li)=>{
+          ctx.save(); ctx.beginPath(); ctx.rect(r.x,r.y,r.w,r.h); ctx.clip();
+          const ls=laneStates[li];
+          if(!ls||ls.clips.length===0){
+            // 검정 화면
+            ctx.fillStyle='#000'; ctx.fillRect(r.x,r.y,r.w,r.h);
+            ctx.restore(); return;
+          }
+          // 클립 전환
+          const cur=ls.clips[ls.clipIdx];
+          const ce=ge-ls.elapsed;
+          const cd=isFinite(cur.videoEl.duration)?cur.videoEl.duration:5;
+          if(ce>=cd&&ls.clipIdx<ls.clips.length-1){
+            cur.videoEl.pause(); ls.elapsed+=cd; ls.clipIdx++;
+            const nxt=ls.clips[ls.clipIdx]; nxt.videoEl.currentTime=0; nxt.videoEl.play();
+          }
+          const v=ls.clips[ls.clipIdx].videoEl;
+          if(v.readyState>=2){
+            const vw=v.videoWidth,vh=v.videoHeight,sc=Math.max(r.w/vw,r.h/vh);
+            ctx.drawImage(v,r.x+(r.w-vw*sc)/2,r.y+(r.h-vh*sc)/2,vw*sc,vh*sc);
+          } else {
+            ctx.fillStyle='#000'; ctx.fillRect(r.x,r.y,r.w,r.h);
+          }
+          ctx.restore();
+        });
+
+        drawOverlays(canvas.getContext('2d'),W,H);
+
+        const p=Math.min(100,Math.round(totalElapsed/totalDur*100));
+        document.getElementById('mFill').style.width=p+'%';
+        document.getElementById('mTxt').textContent=p+'%';
+
+        if(ge<groupDur) requestAnimationFrame(loop);
+        else{
+          // 이 그룹 끝 - 모든 클립 pause
+          laneStates.forEach(ls=>ls.clips.forEach(c=>c.videoEl.pause()));
+          resolve();
+        }
+      }
+      requestAnimationFrame(loop);
+    });
+  }
+
+  mr.stop(); await new Promise(res=>mr.onstop=res);
+  const blob=new Blob(chunks,{type:mime});
+  const ext=mime.includes('mp4')?'mp4':'webm';
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='setlog_'+todayStr()+'.'+ext; a.click();
+  hideModal(); document.getElementById('exportBtn').disabled=false;
   showToast('🎬 완성됐어요!');
   renderCanvas();
 }
@@ -962,11 +1034,21 @@ async function doExport() {
 // ══════════════════════════════
 //  UTILS
 // ══════════════════════════════
-function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('hidden', s.id !== id)); }
-function showModal(t, d) { document.getElementById('mTitle').textContent=t; document.getElementById('mDesc').textContent=d; document.getElementById('mFill').style.width='0%'; document.getElementById('mTxt').textContent='0%'; document.getElementById('modalBg').classList.add('show'); }
-function hideModal() { document.getElementById('modalBg').classList.remove('show'); }
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('hidden',s.id!==id));}
+function showModal(t,d){
+  document.getElementById('mTitle').textContent=t;
+  document.getElementById('mDesc').textContent=d;
+  document.getElementById('mFill').style.width='0%';
+  document.getElementById('mTxt').textContent='0%';
+  document.getElementById('modalBg').classList.add('show');
+}
+function hideModal(){document.getElementById('modalBg').classList.remove('show');}
 let toastTimer;
-function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2800); }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
 </script>
 </body>
 </html>
